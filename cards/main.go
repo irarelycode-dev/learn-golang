@@ -19,7 +19,6 @@ func main() {
 	fmt.Println("**************")
 	remainingCards.print()
 
-	greeting := "Hello world"
-	fmt.Println([]byte(greeting))
+	cards.saveToFile("my_cards")
 
 }

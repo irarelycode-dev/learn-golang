@@ -21,4 +21,12 @@ func main() {
 
 	cards.saveToFile("my_cards")
 
+	fmt.Println("******************reading from file and shuffling")
+
+	cards = readDeckFromFile("my_cards")
+	cards.print()
+	fmt.Println("**************shuffle the cards")
+	cards.shuffle()
+	cards.print()
+
 }

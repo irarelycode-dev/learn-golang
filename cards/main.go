@@ -49,4 +49,14 @@ func main() {
 	(&myPerson).updateFirstName("vicky")
 	myPerson.print()
 
+	var a map[string]string = map[string]string{
+		"red": "0",
+	}
+	fmt.Println(a)
+	for key, value := range a {
+		fmt.Println(key, value)
+	}
+	delete(a, "red")
+	fmt.Println(a)
+
 }

@@ -1,6 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io"
+	"net/http"
+	"os"
+)
 
 var deckSize int = 20
 
@@ -58,5 +63,29 @@ func main() {
 	}
 	delete(a, "red")
 	fmt.Println(a)
+
+	fmt.Println("***********************interfaces************************")
+
+	eb := englishBot{}
+	sb := spanishBot{}
+
+	printGreeting(eb)
+	printGreeting(sb)
+
+	fmt.Println("********Http package**************")
+
+	resp, err := http.Get("http://google.com")
+	if err != nil {
+		fmt.Println("Error:", err)
+		os.Exit(1)
+	}
+
+	fmt.Println(resp)
+
+	// bs := make([]byte, 99999)
+	// resp.Body.Read(bs)
+	// fmt.Println(string(bs))
+
+	io.Copy(os.Stdout, resp.Body)
 
 }

@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"sync"
-	"time"
 )
 
 type Person struct {
@@ -16,33 +15,21 @@ func printSomething(s string, wg *sync.WaitGroup) {
 	fmt.Println(s)
 }
 
+func printSomethingDef(s string) {
+	fmt.Println(s)
+}
+
+var msg string
+
+func updateMessage(s string, wg *sync.WaitGroup) {
+	defer wg.Done()
+	msg = s
+}
+
 func main() {
-	var wg sync.WaitGroup
 
-	words := []string{
-		"alpha",
-		"beta",
-		"gamma",
-		"zeta",
-		"peta",
-		"theta",
-		"pi",
-		"epsilon",
-	}
-
-	wg.Add(len(words))
-
-	for i, x := range words {
-		go printSomething(fmt.Sprintf("%d: %s", i, x), &wg)
-	}
-
-	wg.Wait()
-	wg.Add(1)
-
-	time.Sleep(1 * time.Second)
-	printSomething("This is the 2nd thing to be printed", &wg)
-
-	//channels,pointers concepts
+	// channels,pointers concepts
+	//fmt.Println("******pointers and channels******")
 
 	// tmp()
 
@@ -62,5 +49,67 @@ func main() {
 
 	// var receiveOnlyChannel <-chan int = make(<-chan int)
 	// fmt.Println(receiveOnlyChannel)
+
+	fmt.Println("********wait groups*************")
+
+	var wg sync.WaitGroup
+
+	words := []string{
+		"alpha",
+		"beta",
+		"gamma",
+		"zeta",
+		"peta",
+		"theta",
+		"pi",
+		"epsilon",
+	}
+
+	wg.Add(len(words))
+
+	for i, x := range words {
+		go printSomething(fmt.Sprintf("%d: %s", i, x), &wg)
+	}
+
+	wg.Wait() //this will wait till the wait group finishes
+	wg.Add(1)
+
+	// time.Sleep(1 * time.Second)
+	go printSomething("This is the 2nd thing to be printed", &wg)
+
+	fmt.Println("*******go routines assignment*****")
+	msg = "Hello world!"
+	wg.Add(1)
+	go updateMessage("Hello universe!", &wg)
+	wg.Wait()
+	printSomethingDef(msg)
+
+	wg.Add(1)
+	go updateMessage("Hello,cosmos!", &wg)
+	wg.Wait()
+	printSomethingDef(msg)
+
+	wg.Add(1)
+	go updateMessage("Hello,world!", &wg)
+	wg.Wait()
+	printSomethingDef(msg)
+
+	// fmt.Println("*******************go routines docs**************")
+	// wg.Add(1)
+
+	// go printSomething("You fucking vile being", &wg)
+
+	// wg.Wait()
+	// fmt.Println("Done working!")
+
+	// fmt.Println("Anonymous function")
+
+	// wg.Add(1)
+	// go func() {
+	// 	fmt.Println("Running anonymous function")
+	// 	wg.Done()
+	// }()
+	// wg.Wait()
+	// fmt.Println("Done executing!")
 
 }

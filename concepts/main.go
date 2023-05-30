@@ -9,4 +9,8 @@ func main() {
 	printVariadic()
 	closure()
 	recursion()
+	pointers()
+	stringsandrunes()
+	structFunc()
+	methods()
 }

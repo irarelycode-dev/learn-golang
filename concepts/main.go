@@ -13,4 +13,10 @@ func main() {
 	stringsandrunes()
 	structFunc()
 	methods()
+	callInterfaceMethods()
+	structEmbedding()
+	buildList() //generics
+	throwError()
+	goRoutines()
+	channelBuffering()
 }

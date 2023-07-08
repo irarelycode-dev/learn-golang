@@ -1,51 +1,107 @@
 package main
 
 import (
-	"fmt"
-	"sync"
+	"math/rand"
+	"time"
+
+	"github.com/fatih/color"
 )
 
-var wg sync.WaitGroup
+const numberOfPizzas = 10
 
-type Income struct {
-	Source string
-	Amount int
+var pizzasMade, pizzasFailed, total int
+
+type Producer struct {
+	data chan PizzaOrder
+	quit chan chan error
+}
+
+type PizzaOrder struct {
+	pizzaNumber int
+	message     string
+	success     bool
+}
+
+func (p *Producer) Close() error {
+	ch := make(chan error)
+	p.quit <- ch
+	return <-ch
+}
+
+func pizzeria(pizzaMaker *Producer) {
+
+	//keep track of which pizza are making
+
+	//run forever or until we receive a quit notification
+	//try to make pizzas
+	for {
+		//try to make a pizza
+		//decision
+	}
+
 }
 
 func main() {
 
-	var bankBalance int
-	var mutex sync.Mutex
+	rand.Seed(time.Now().UnixNano())
+	color.Cyan("The pizzeria is open for business")
+	color.Cyan("-----------------------------------")
 
-	fmt.Printf("Intial bank account:$%d.00", bankBalance)
-	fmt.Println()
-	incomes := []Income{
-		{Source: "Main job", Amount: 500},
-		{Source: "Gifts", Amount: 10},
-		{Source: "Part-time job", Amount: 50},
-		{Source: "Investments", Amount: 100},
+	pizzaJob := &Producer{
+		data: make(chan PizzaOrder),
+		quit: make(chan chan error),
 	}
 
-	wg.Add(len(incomes))
-
-	for i, income := range incomes {
-		go func(i int, income Income) {
-			defer wg.Done()
-			for week := 1; week <= 52; week++ {
-				mutex.Lock()
-				temp := bankBalance
-				temp += income.Amount
-				bankBalance = temp
-				mutex.Unlock()
-				fmt.Printf("On week %d,you earned %d.00 from %s\n", week, income.Amount, income.Source)
-			}
-		}(i, income)
-	}
-
-	wg.Wait()
-	fmt.Printf("Final bank balance:$%d.00\n", bankBalance)
+	go pizzeria(pizzaJob)
 
 }
+
+// import (
+// 	"fmt"
+// 	"sync"
+// )
+
+// var wg sync.WaitGroup
+
+// type Income struct {
+// 	Source string
+// 	Amount int
+// }
+
+// func main() {
+
+// 	var bankBalance int
+// 	var mutex sync.Mutex
+
+// 	fmt.Printf("Intial bank account:$%d.00", bankBalance)
+// 	fmt.Println()
+// 	incomes := []Income{
+// 		{Source: "Main job", Amount: 500},
+// 		{Source: "Gifts", Amount: 10},
+// 		{Source: "Part-time job", Amount: 50},
+// 		{Source: "Investments", Amount: 100},
+// 	}
+
+// 	wg.Add(len(incomes))
+
+// 	for i, income := range incomes {
+// 		go func(i int, income Income) {
+// 			defer wg.Done()
+// 			for week := 1; week <= 52; week++ {
+// 				mutex.Lock()
+// 				temp := bankBalance
+// 				temp += income.Amount
+// 				bankBalance = temp
+// 				mutex.Unlock()
+// 				fmt.Printf("On week %d,you earned %d.00 from %s\n", week, income.Amount, income.Source)
+// 			}
+// 		}(i, income)
+// 	}
+
+// 	wg.Wait()
+// 	fmt.Printf("Final bank balance:$%d.00\n", bankBalance)
+
+// }
 
 // import (
 // 	"fmt"

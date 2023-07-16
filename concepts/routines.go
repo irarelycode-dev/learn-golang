@@ -21,8 +21,10 @@ func goRoutines() {
 	f("direct")
 	go f("goroutine")
 	go func(msg string) {
+		fmt.Println("Inside non blocking go routine")
 		fmt.Println(msg)
 	}("going")
 	time.Sleep(time.Second)
 	channels()
+
 }

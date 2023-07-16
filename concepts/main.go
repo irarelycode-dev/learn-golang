@@ -18,5 +18,14 @@ func main() {
 	buildList() //generics
 	throwError()
 	goRoutines()
+	channelConcepts()
 	channelBuffering()
+	channelSynchronization()
+	channelDirection()
+	selectStatement()
+	timeouts()
+	nonBlockingChannelOperations()
+	closingChannels()
+	timers()
+	tickers()
 }

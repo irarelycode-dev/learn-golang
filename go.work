@@ -4,5 +4,5 @@ use (
 	.
 	./REST
 	./go-MySQL
-	./go-mongodb
+	./golang-jwt
 )
